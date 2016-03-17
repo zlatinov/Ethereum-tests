@@ -1,0 +1,92 @@
+<!doctype>
+<html>
+    <head>
+        <script type="text/javascript" src="../dist/web3.js"></script>
+        <script type="text/javascript">
+
+            var Web3 = require('web3');
+            var web3 = new Web3();
+            web3.setProvider(new web3.providers.HttpProvider('http://localhost:8000'));
+
+            var EthereumTraining,
+                    eventProfileCreated,
+                    eventProfileUpdated;
+
+            EthereumTraining = web3.eth.contract([{"constant": false, "inputs": [{"name": "_name", "type": "string"}, {"name": "_age", "type": "uint8"}, {"name": "_specialty", "type": "string"}, {"name": "_twitter_url", "type": "string"}, {"name": "_github_url", "type": "string"}, {"name": "_linkedin_url", "type": "string"}], "name": "createProfile", "outputs": [{"name": "profile_id", "type": "uint256"}], "type": "function"}, {"constant": false, "inputs": [], "name": "next", "outputs": [{"name": "name", "type": "string"}, {"name": "age", "type": "uint8"}, {"name": "specialty", "type": "string"}, {"name": "twitter_url", "type": "string"}, {"name": "github_url", "type": "string"}, {"name": "linkedin_url", "type": "string"}], "type": "function"}, {"constant": false, "inputs": [], "name": "canIModifyProfiles", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": false, "inputs": [{"name": "profile_id", "type": "uint256"}, {"name": "name", "type": "string"}, {"name": "age", "type": "uint8"}, {"name": "specialty", "type": "string"}, {"name": "twitter_url", "type": "string"}, {"name": "github_url", "type": "string"}, {"name": "linkedin_url", "type": "string"}], "name": "updateProfile", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": false, "inputs": [], "name": "hasNext", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": false, "inputs": [], "name": "rewind", "outputs": [], "type": "function"}, {"constant": false, "inputs": [{"name": "profile_id", "type": "uint256"}], "name": "getProfile", "outputs": [{"name": "name", "type": "string"}, {"name": "age", "type": "uint8"}, {"name": "specialty", "type": "string"}, {"name": "twitter_url", "type": "string"}, {"name": "github_url", "type": "string"}, {"name": "linkedin_url", "type": "string"}], "type": "function"}, {"inputs": [], "type": "constructor"}, {"anonymous": false, "inputs": [{"indexed": false, "name": "profile_id", "type": "uint256"}], "name": "profileCreated", "type": "event"}, {"anonymous": false, "inputs": [{"indexed": false, "name": "profile_id", "type": "uint256"}], "name": "profileUpdated", "type": "event"}]);
+            EthereumTraining = EthereumTraining.at("0xdb5633b8e314b2f02afdce0eb3ac209998aebb5c");
+
+            eventProfileCreated = EthereumTraining.profileCreated({}, function(error, result) {
+                if (!error) {
+                    console.log(result);
+                }
+            });
+            eventProfileUpdated = EthereumTraining.profileUpdated({}, function(error, result) {
+                if (!error) {
+                    console.log(result);
+                }
+            });
+
+            function createProfile() {
+                var result = EthereumTraining.createProfile({
+                    name: document.getElementById('name').value,
+                    age: document.getElementById('age').value,
+                    specialty: document.getElementById('specialty').value,
+                    twitter_url: document.getElementById('twitter_url').value,
+                    github_url: document.getElementById('github_url').value,
+                    linkedin: document.getElementById('linkedin_url').value,
+                });
+
+                console.log(result);
+            }
+
+            function updateProfile() {
+                var result = EthereumTraining.updateProfile({
+                    profile_id: document.getElementById('profile_id').value,
+                    name: document.getElementById('name').value,
+                    age: document.getElementById('age').value,
+                    specialty: document.getElementById('specialty').value,
+                    twitter_url: document.getElementById('twitter_url').value,
+                    github_url: document.getElementById('github_url').value,
+                    linkedin: document.getElementById('linkedin_url').value,
+                });
+
+                console.log(result);
+            }
+
+            function getProfile(profile_id) {
+                var profile = EthereumTraining.getProfile(profile_id);
+
+                console.log(profile);
+            }
+
+            function next() {
+                var profile = EthereumTraining.next();
+
+                console.log(profile);
+            }
+
+            function rewind() {
+                EthereumTraining.rewind();
+            }
+        </script>
+    </head>
+
+    <body>
+        <div>
+            Name <input id="name" type='text' value='Zvezdomir Zlatinov' /><br />
+            Age <input id="age" type='text' value='27' /><br />
+            Specialty <input id="specialty" type='text' value='Blockchain Dev' /><br />
+            Twitter <input id="twitter_url" type='text' value='' /><br />
+            GitHub <input id="github_url" type='text' value='' /><br />
+            LinkedIn <input id="linkedin_url" type='text' value='' /><br />
+            <button onclick="createProfile();">Create Profile</button><br />
+            <button onclick="updateProfile();">Update Profile: </button><input id='profile_id' type='text' />
+        </div>
+
+        <div>
+
+        </div>
+
+        <ul id='log'></ul>
+    </body>
+</html>
