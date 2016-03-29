@@ -1,11 +1,18 @@
 0x6397ce733f470db71892da2125bae6e6037ba992
 
-./geth.exe --identity "EthereumDevTest777" --genesis CustomGenesis.json --rpc --rpcport "8000" --rpccorsdomain "*" --datadir "D:\Storage\Ethereum\data" --port "30303" --nodiscover --ipcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3" --rpcapi "db,eth,net,web3" --autodag --networkid 1900 --nat "any" console
+
+geth.exe --identity "EthereumDevTest777" --genesis CustomGenesis.json --rpc --rpcport "8000" --rpccorsdomain "*" --datadir "D:\Storage\Ethereum\data" --port "30303" --nodiscover --ipcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3" --rpcapi "db,eth,net,web3" --autodag --networkid 1900 --nat "any"
+console
 
 personal.unlockAccount("0x6397ce733f470db71892da2125bae6e6037ba992", "pass")
 
+
 geth.exe attach --mine --etherbase "0x6397ce733f470db71892da2125bae6e6037ba992"
+
+
 
 miner.setEtherbase(eth.accounts[0])
 
 web3.fromWei(eth.getBalance("0x6397ce733f470db71892da2125bae6e6037ba992"), "ether")
+
+0xc44c920fa115d86114c1b3d4e9003293a7246864

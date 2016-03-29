@@ -28,7 +28,8 @@ contract EthereumTraining {
     
     /// @dev name, age, specialty can't be empty. Only contract creator can create profiles. Function canIModifyProfiles() can be used to verify access.
     function createProfile(string name, uint8 age, string specialty, string twitter_url, string github_url, string linkedin_url)
-        onlyCreator()
+        public
+		onlyCreator()
         verifyProfileData(name, age, specialty)
         
         returns (uint profile_id)
@@ -49,6 +50,8 @@ contract EthereumTraining {
     }
     
     function getProfile(uint profile_id)
+		public
+		constant
         profileExists(profile_id)
         
         returns (string name, uint8 age, string specialty, string twitter_url, string github_url, string linkedin_url)
@@ -60,7 +63,8 @@ contract EthereumTraining {
     
     /// @dev name, age, specialty are can't be empty. Only contract creator can update profiles. Function canIModifyProfiles() can be used to verify access.
     function updateProfile(uint profile_id, string name, uint8 age, string specialty, string twitter_url, string github_url, string linkedin_url)
-        onlyCreator()
+        public
+		onlyCreator()
         profileExists(profile_id)
         verifyProfileData(name, age, specialty)
         
@@ -79,18 +83,23 @@ contract EthereumTraining {
     }
     
     function canIModifyProfiles()
+		public
+		constant
         returns (bool)
     {
         return msg.sender == creator;
     }
     
     function hasNext()
+		public
+		constant	
         returns (bool)
     {
         return iterations[msg.sender] < profiles.length;
     }
     
     function next()
+		public
         returns (string name, uint8 age, string specialty, string twitter_url, string github_url, string linkedin_url)
     {
         if(hasNext()) {
@@ -106,6 +115,7 @@ contract EthereumTraining {
     }
     
     function rewind() {
+		public
         iterations[msg.sender] = 0;
     }
     
